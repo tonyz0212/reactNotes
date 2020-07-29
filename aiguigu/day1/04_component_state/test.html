@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title> 啊</title>
+</head>
+<body>
+  <div id="example"></div>  
+  <script type="text/javascript" src="../js/react.development.js"></script>
+  <script type="text/javascript" src="../js/react-dom.development.js"></script>
+  <script type="text/javascript" src="../js/babel.min.js"></script>  
+
+<script type="text/babel">
+
+  /*
+  需求: 自定义组件, 功能说明如下
+    1. 显示h2标题, 初始文本为: 你喜欢我
+    2. 点击标题更新为: 我喜欢你
+  */
+  // class Like extends React.Component {
+  //   constructor (props) {
+  //     super(props)
+  //     // 初始化状态
+  //     this.state = {
+  //       isLikeMe: false
+  //     }
+  //     // 绑定this为组件对象
+  //     this.handleClick = this.handleClick.bind(this)
+  //   }
+  //   handleClick () {
+  //     // 更新状态: this.setState()
+  //     // this.state.isLikeMe = !this.state.isLikeMe // 不能更新更新某个状态
+  //     this.setState({
+  //       isLikeMe: !this.state.isLikeMe
+  //     })
+  //   }
+  //   render () {
+  //     const text = this.state.isLikeMe ? '你喜欢我' : '我喜欢你'
+  //     return <h2 onClick={this.handleClick}>{text}</h2>
+  //   }
+  // }
+  // ReactDOM.render(<Like />, document.getElementById('example'))
+
+  /* 
+      1.显示 你喜欢我 
+      2.点击标题 更新为： 我喜欢你
+  */
+
+  // 1. 定义组件
+  class Like extends React.Component{
+    // 定义状态
+    constructor(props){
+      // 调用父类型
+      super(props)
+      // 初始化状态
+      this.state = {
+        isLikeMe : false
+      }
+
+
+    this.handleClick = this.handleClick.bind(this)
+    }
+
+    // 新添加方法： 内部this默认不是组件对象，而是undefined
+    handleClick(){
+      //console.log('handleClick()',this)
+      // 得到以前的状态 并反过来
+      const isLikeMe = !this.state.isLikeMe
+
+      //  更新状态
+      this.setState({isLikeMe})
+    }
+
+    render(){
+      // 读取状态
+      const {isLikeMe} = this.state
+      //const flag = this.state.isLikeMe
+      console.log(isLikeMe)
+      return <h2 onClick={this.handleClick}> {isLikeMe?'you like me':'i like u' }</h2>
+    }
+  }  
+
+  ReactDOM.render(<Like/>,document.getElementById('example'))
+
+  // 2. 渲染组件标签
+  
+</script>
+</body>
+</html>
