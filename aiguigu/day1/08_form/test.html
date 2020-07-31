@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+</head>
+<title> 08_form</title>
+<body>
+  <div id="example"></div>  
+
+  <script type="text/javascript" src="../js/react.development.js"></script>
+  <script type="text/javascript" src="../js/react-dom.development.js"></script>
+  <script type="text/javascript" src="../js/prop-types.js"></script>
+  <script type="text/javascript" src="../js/babel.min.js"></script>  
+
+<script type="text/babel">
+
+  class LoginForm extends React.Component{
+
+    constructor( props){
+      super(props)
+      this.state = {
+        pwd: ''
+      }
+
+      this.handleSubmit = this.handleSubmit.bind(this)
+      this.handleChange = this.handleChange.bind(this)
+    }
+    handleSubmit( event){
+
+      const name = this.nameInput.value
+      const {pwd} = this.state
+      alert(` the user name is ${name}, password is ${pwd} `)
+      // 阻止事件的默认行为  （submit)
+      event.preventDefault()
+      
+    }
+    handleChange(event){
+      // read input
+      const pwd = event.target.value
+      this.setState({pwd})
+
+      // update the pwd state
+
+    }
+    render(){
+
+      return (
+        <form action="/test" onSubmit={this.handleSubmit}>
+            username: <input type="text" ref= {input => this.nameInput = input} />
+            password: <input type="password" value = {this.state.pwd} onChange={this.handleChange}  />
+            <input type="submit" value="login"/>
+        </form>
+      )
+    }
+  }
+
+  ReactDOM.render(<LoginForm/>,document.getElementById('example'))
+
+</script>
+</body>
+</html>

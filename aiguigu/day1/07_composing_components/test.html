@@ -2,10 +2,10 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title> 啊</title>
 </head>
+<title> 啊</title>
 <body>
-  <div id="example1"></div>  
+  <div id="example"></div>  
 
   <script type="text/javascript" src="../js/react.development.js"></script>
   <script type="text/javascript" src="../js/react-dom.development.js"></script>
@@ -14,6 +14,99 @@
 
 <script type="text/babel">
 
+  class App extends React.Component {
+
+    constructor (props){
+      super(props)
+      // 初始化状态
+      this.state = {
+        todos:['睡觉','学习'],
+      }
+      this.addTodo = this.addTodo.bind(this)
+    }
+   
+    addTodo(todo){
+      const {todos} = this.state
+      todos.unshift(todo)
+      // update state
+      this.setState({todos})
+    }
+    render(){
+      const {todos} = this.state
+      // can only return one 标签
+      return (
+        <div>
+          <h1>Simple TODO List</h1>  
+          <AddItem count = {todos.length} addTodo={this.addTodo}/>
+          <ShowList todos={todos}/>
+        </div>
+      )
+    }
+  }
+
+
+  class AddItem extends React.Component { 
+    constructor(props){
+      super(props)
+      this.add = this.add.bind(this)
+       
+    }
+    add(){
+      // 1. 读取输入的数据
+      // console.log(" this", this)
+      // console.log(" this.todoInput", this)
+      // console.log(" this.todoInput.value", this)
+      const todo =this.tdi.value.trim()
+      // 2. 检查合法性
+      if(!todo){
+        return  
+      }
+      // 3. 添加
+      this.props.addTodo(todo)
+      // 4. 清除输入
+      this.tdi.value = ''
+
+    }
+
+    render(){
+    
+      return (
+        <div>
+          <input type="text" ref ={input => this.tdi=input}/>
+          <button onClick = {this.add}> Add item #{this.props.count+1}</button>  
+        </div>
+
+      )
+    }
+  }
+  AddItem.propTypes = {
+    count : PropTypes.number.isRequired,
+    addTodo: PropTypes.func.isRequired
+  }
+
+
+  class ShowList extends React.Component {
+    render(){
+      const {todos} =  this.props 
+      return (
+        <div>
+          <ul>
+            {
+              this.props.todos.map((todo,index) => <li key = {index}> {todo}  </li>)
+            }
+          </ul>  
+        </div>
+      )
+    }
+  }
+  ShowList.propTypes = {
+      todos: PropTypes.array.isRequired
+     
+
+  }  // 只渲染App，因为剩下两个是app的子组件
+    
+
+  ReactDOM.render(<App/>,document.getElementById('example'))
 
 </script>
 </body>
