@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+</head>
+<title> 08_form</title>
+<body>
+  <div id="example"></div>  
+
+  <script type="text/javascript" src="../js/react.development.js"></script>
+  <script type="text/javascript" src="../js/react-dom.development.js"></script>
+  <script type="text/javascript" src="../js/prop-types.js"></script>
+  <script type="text/javascript" src="../js/babel.min.js"></script>  
+
+  <script type="text/babel">
+
+    class Life extends React.Component{
+
+      constructor(props){
+        
+        super(props)
+        this.state = {
+          opacity : 1
+        } 
+
+        this.distroyComponent = this.distroyComponent.bind(this)
+      }      
+      
+      componentDidMount(){
+        // start the recusive time clock
+        this.intervalID = setInterval(function (){
+          console.log('time is running');
+          
+          let {opacity} = this.state
+          opacity -= 0.1
+          if( opacity <= 0){
+            opacity = 1
+          }
+          this.setState({opacity})
+        }.bind(this),200)
+      }
+
+      distroyComponent(){
+        ReactDOM.unmountComponentAtNode(document.getElementById('example'))
+
+      }
+
+      componentWillUnmount(){
+        clearInterval(this.intervalID)
+      }
+
+  
+
+      render(){
+
+        const {opacity} = this.state
+        return (
+          <div>
+          <h2 style={{ opacity: opacity}}>{this.props.msg}</h2>
+          <button onClick={this.distroyComponent}>不活了</button>
+          </div>
+        )
+      }
+    }
+    
+
+    ReactDOM.render(<Life msg="react is difficult" />,document.getElementById('example'))
+
+  </script>
+</body>
+</html>
